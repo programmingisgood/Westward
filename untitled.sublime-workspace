@@ -1,0 +1,507 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"kS",
+				"kScreenHalfHeight"
+			],
+			[
+				"kBui",
+				"kBuildPointDistance"
+			],
+			[
+				"start",
+				"startAnim"
+			],
+			[
+				"kSc",
+				"kScreenWidth"
+			],
+			[
+				"kScre",
+				"kScreenHalfHeight"
+			],
+			[
+				"startA",
+				"startAnimVal"
+			],
+			[
+				"built",
+				"builtPoints"
+			],
+			[
+				"UpdateTr",
+				"UpdateTrainPosition"
+			],
+			[
+				"kScr",
+				"kScreenHalfWidth"
+			],
+			[
+				"kScreenHa",
+				"kScreenHalfWidth"
+			],
+			[
+				"kScree",
+				"kScreenHeight"
+			],
+			[
+				"Init",
+				"InitMixin"
+			],
+			[
+				"Ini",
+				"InitMixin"
+			],
+			[
+				"builder",
+				"builderPos"
+			],
+			[
+				"buil",
+				"builderPos"
+			],
+			[
+				"grab",
+				"GrabberMixin"
+			],
+			[
+				"nearb",
+				"nearbyGrabables"
+			],
+			[
+				"physics",
+				"physicsWorld"
+			],
+			[
+				"kWo",
+				"kWorldHeight"
+			],
+			[
+				"ph",
+				"physicsWorld"
+			],
+			[
+				"net",
+				"net"
+			],
+			[
+				"last",
+				"lastSkateMarkVel"
+			],
+			[
+				"quad",
+				"quadH"
+			],
+			[
+				"kWor",
+				"kWorldHeight"
+			],
+			[
+				"kWorl",
+				"kWorldWidth"
+			],
+			[
+				"Create",
+				"CreateBackground"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "WestwardPlayState.lua",
+			"settings":
+			{
+				"buffer_size": 6888,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Utils.lua",
+			"settings":
+			{
+				"buffer_size": 4968,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"",
+				"About"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/Murphy/Projects/Experiments2/Westward/DebugDrawer.lua",
+		"/Users/Murphy/Projects/Experiments2/Westward/conf.lua",
+		"/Users/Murphy/Projects/Experiments2/Westward/main.lua",
+		"/Users/Murphy/Projects/Experiments2/Westward/WestwardGame.lua",
+		"/Users/Murphy/Projects/Experiments2/Westward/Camera.lua",
+		"/Users/Murphy/Projects/Experiments2/Westward/Game.lua",
+		"/Users/Murphy/Projects/Experiments2/Westward/Westward.sublime-project",
+		"/Users/Murphy/Projects/Experiments2/Amore/Camera.lua",
+		"/Users/Murphy/Projects/Experiments2/Amore/PhysicsMixin.lua",
+		"/Users/Murphy/Projects/Experiments2/Amore/StabboGame.lua",
+		"/Users/Murphy/Projects/Experiments2/Amore/StabboPlayState.lua",
+		"/Users/Murphy/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/Murphy/Library/Application Support/Sublime Text 2/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/Murphy/Library/Application Support/Sublime Text 2/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/Murphy/Projects/Experiments2/Amore/Run.sh"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"addt",
+			"lastbuilt",
+			"startan",
+			"text(",
+			"draw",
+			"startAnim",
+			"MAxTrainS",
+			".floor",
+			".speed",
+			"AtLast",
+			"atlast",
+			"updatebuildermo",
+			"draw",
+			"buildpoint",
+			"unpa",
+			"self.player",
+			"world",
+			"camera",
+			".worldExt",
+			"hockey",
+			"grab",
+			"puck",
+			"nearbyUsables",
+			"Query",
+			"update",
+			"puck",
+			"upda",
+			"puck",
+			"kpuckmass",
+			"updateska",
+			"resultsEffect",
+			"particle",
+			"vec2",
+			"idle",
+			"skate",
+			"kMaxSpeed",
+			"kmaxspeed",
+			"human",
+			"kcollision",
+			"khumanmass",
+			"InitWorld",
+			"InitWorldBounds",
+			"self.stabbo",
+			"the ma"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"self.builder",
+			"self.player"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "WestwardPlayState.lua",
+					"settings":
+					{
+						"buffer_size": 6888,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4577,
+								4577
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2461.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Utils.lua",
+					"settings":
+					{
+						"buffer_size": 4968,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4923,
+								4923
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2983.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"debu",
+				"DebugDrawer.lua"
+			],
+			[
+				"deb",
+				"DebugDrawer.lua"
+			],
+			[
+				"uti",
+				"Utils.lua"
+			],
+			[
+				"util",
+				"Utils.lua"
+			],
+			[
+				"cam",
+				"Camera.lua"
+			],
+			[
+				"super",
+				"SuperHockeyPlayState.lua"
+			],
+			[
+				"gr",
+				"GrabberMixin.lua"
+			],
+			[
+				"su",
+				"SuperHockeyPlayState.lua"
+			],
+			[
+				"suo",
+				"SuperHockeyGame.lua"
+			],
+			[
+				"phy",
+				"PhysicsMixin.lua"
+			],
+			[
+				"worl",
+				"World.lua"
+			],
+			[
+				"superh",
+				"SuperHockeyPlayState.lua"
+			],
+			[
+				"wo",
+				"World.lua"
+			],
+			[
+				"sup",
+				"SuperHockeyPlayState.lua"
+			],
+			[
+				"sprit",
+				"SpriteMixin.lua"
+			],
+			[
+				"camera",
+				"Camera.lua"
+			],
+			[
+				"dra",
+				"DebugDrawer.lua"
+			],
+			[
+				"utils",
+				"Utils.lua"
+			],
+			[
+				"debug",
+				"DebugDrawer.lua"
+			],
+			[
+				"phys",
+				"PhysicsMixin.lua"
+			],
+			[
+				"mov",
+				"MovableMixin.lua"
+			],
+			[
+				"sprite",
+				"SpriteMixin.lua"
+			],
+			[
+				"conf",
+				"conf.lua"
+			],
+			[
+				"spr",
+				"SpriteMixin.lua"
+			],
+			[
+				"ph",
+				"PhysicsMixin.lua"
+			],
+			[
+				"spri",
+				"SpriteMixin.lua"
+			],
+			[
+				"mix",
+				"Mixins.lua"
+			],
+			[
+				"stabbog",
+				"StabboGame.lua"
+			],
+			[
+				"stabbopl",
+				"StabboPlayState.lua"
+			],
+			[
+				"main",
+				"main.lua"
+			],
+			[
+				"stabbo",
+				"StabboPlayState.lua"
+			],
+			[
+				"run",
+				"Run.sh"
+			],
+			[
+				"stabbopla",
+				"StabboPlayState.lua"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 199.0,
+	"status_bar_visible": true
+}
