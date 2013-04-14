@@ -1,1 +1,1 @@
-indicate when passenger can be picked up
+win condition

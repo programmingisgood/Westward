@@ -8,8 +8,17 @@ function DebugDrawer.DrawRect(center, size, duration, useColor, space)
 
 end
 
+DebugDrawer.drawTextPos = vec2(5, 5)
 function DebugDrawer.DrawText(text, pos, duration, useColor, space)
 
+    if not pos then
+
+        pos = DebugDrawer.drawTextPos
+        DebugDrawer.drawTextPos = DebugDrawer.drawTextPos:Add(vec2(0, 10))
+
+    end
+    duration = duration or 0
+    useColor = useColor or color(0, 0, 0, 255)
     table.insert(DebugDrawer.drawTypes.texts, { text = text, pos = pos, now = Now(),
                                                 duration = duration, color = useColor, space = space or "screen" })
 
@@ -56,6 +65,7 @@ function DebugDrawer.Draw(drawSpace)
         end
         
     end
+    DebugDrawer.drawTextPos = vec2(5, 5)
 
     for l = 1, #DebugDrawer.drawTypes.lines do
 

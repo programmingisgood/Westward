@@ -1,4 +1,7 @@
 
+
+local PlayState = { }
+
 local SimpleInput = require("SimpleInput")
 local Sound = require("Sound")
 
@@ -13,22 +16,25 @@ local kScreenHalfHeight = kScreenHeight / 2
 
 local kWorldScrollSpeed = 32
 
+local kGameWinConditionTime = 140
 local kGameProgressionTime = 100
 local kGameProgressionMaxSpeed = 1.5
+local kNumEndGameGold = 10
 
 local kMaxTrainSpeed = 10
 local kTrainAccelAmount = 0.75
 local kTrainBrakeAmount = 2.5
 local kTrainSpeedMod = 0.25
+local kAddMotionLineRate = 0.25
+local kMotionLineLifetime = 0.5
 local kBuilderSpeed = 64
 
 local kAddPassengerRate = 4
 local kPassengerSpeed = 10
 local kPassengerPickupDistance = 24
 local kPassengerAttractDistance = 128
-local kPassengerMaxPickupSpeed = 4
+local kPassengerMaxTrainSpeed = 4
 local kPassengerDropoffDistance = 64
-local kPassengerMaxDropoffSpeed = 4
 local kPassengerTypes = { }
 table.insert(kPassengerTypes, { name = "red", color = color(150, 0, 0, 255) })
 table.insert(kPassengerTypes, { name = "green", color = color(0, 150, 0, 255) })
@@ -41,10 +47,14 @@ table.insert(kDestinationTypes, { name = "green", color = color(0, 150, 0, 255) 
 table.insert(kDestinationTypes, { name = "blue", color = color(0, 0, 150, 255) })
 
 local kAddObstacleRate = 5
+local kEndGameAddObstacleRate = 1
 local kObstacleTypes = { }
-table.insert(kObstacleTypes, { name = "cattle", image = "art/Cattle.png", direction = vec2(0, 1), speed = 25 })
+table.insert(kObstacleTypes, { name = "cattle", image = "art/Cattle.png", direction = vec2(0, 1), speed = 25, speedVariance = 5 })
 
 local kHugeFont = love.graphics.newFont("art/press-start-2p/PressStart2P.ttf", 62)
+
+local kMapImage = love.graphics.newImage("art/Map.png")
+kMapImage:setFilter("nearest", "nearest")
 
 local function CreateSprite(path, numRows, numCols)
 
@@ -65,6 +75,13 @@ local function AddTrainCar(train)
     newCar:SetScale(vec2(1.5, 1.5))
 
     table.insert(train.cars, newCar)
+
+end
+
+local function GetOffScreenAmount(self, point)
+
+    local diff = self.worldScroll.x - -point.x
+    return kScreenWidth - diff
 
 end
 
@@ -96,6 +113,7 @@ local function Init(self)
     self.train.prevPoint = 3
     self.train.percentToNextPoint = 0
     self.train.cars = { }
+    self.train.motionLines = { }
 
     AddTrainCar(self.train)
     AddTrainCar(self.train)
@@ -108,6 +126,7 @@ local function Init(self)
     self.passengers = { }
     self.destinations = { }
     self.obstacles = { }
+    self.gold = { }
 
     self.numPassengersDelivered = 0
     self.gameTime = 0
@@ -164,7 +183,35 @@ local function UpdateBuilderMovement(self, builder, dt)
     
 end
 
-local function UpdateTrainSpeed(train, dt)
+local function UpdateTrainMotionLines(train)
+
+    local now = Now()
+    if train.speed >= kPassengerMaxTrainSpeed then
+
+        train.lastTimeMotionLineAdded = train.lastTimeMotionLineAdded or 0
+        if now - train.lastTimeMotionLineAdded >= kAddMotionLineRate then
+
+            local newLine = { }
+            newLine.front = train:GetPosition():Add(vec2(0, RandomFloatBetween(-8, 8)))
+            newLine.back = newLine.front:Add(vec2(5, 0))
+            newLine.time = now
+            table.insert(train.motionLines, newLine)
+
+        end
+
+    end
+
+    for l = #train.motionLines, 1, -1 do
+
+        if now - train.motionLines[l].time >= kMotionLineLifetime then
+            table.remove(train.motionLines, l)
+        end
+
+    end
+
+end
+
+local function UpdateTrainSpeed(self, train, dt)
     
     local accel = train.input:GetInputState("A")
     if accel > 0 then
@@ -179,7 +226,10 @@ local function UpdateTrainSpeed(train, dt)
     end
 
     train.speed = math.min(math.max(train.speed, 0), kMaxTrainSpeed)
-    DebugDrawer.DrawText("speed: " .. train.speed, vec2(5, 5), 0, color(0, 0, 0, 0))
+
+    UpdateTrainMotionLines(train)
+
+    DebugDrawer.DrawText("speed: " .. train.speed)
 
 end
 
@@ -213,6 +263,11 @@ local function GetPointOnTracks(self, builtPointIndex, percentToNextPoint)
 end
 
 local function UpdateTrainPosition(self, dt)
+
+    -- Prevent the train from getting too close.
+    if self.train.prevPoint == #self.builtPoints then
+        return
+    end
 
     self.train.percentToNextPoint = self.train.percentToNextPoint + self.train.speed * dt * kTrainSpeedMod
     if self.train.percentToNextPoint >= 1 then
@@ -271,7 +326,10 @@ local function UpdateAddPassengers(self, dt)
         local randomPoint = GetRandomPointInWorld(self)
         if CheckPointAwayFrom(randomPoint, self.destinations, 128, SameTypeName(randomType)) then
 
-            local newPassenger = CreateSprite("art/Passenger.png", 1, 1)
+            local newPassenger = CreateSprite("art/Passenger.png", 1, 2)
+            newPassenger:AddAnimation("idle", { { frame = 1, time = 0 } })
+            newPassenger:AddAnimation("attracted", { { frame = 2, time = 0 } })
+            newPassenger:SetAnimation("idle")
 
             newPassenger.type = randomType
 
@@ -319,20 +377,31 @@ local function UpdateAddDestinations(self, dt)
 
 end
 
-local function UpdateAddObstacles(self, dt)
+local function UpdateAddObstacles(self, dt, progress)
 
     self.lastTimeAddedObstacle = self.lastTimeAddedObstacle or 0
     local now = Now()
-    if now - self.lastTimeAddedObstacle >= kAddObstacleRate then
+    local endGame = progress >= 0.9
+    local addRate = endGame and kEndGameAddObstacleRate or kAddObstacleRate
+    if now - self.lastTimeAddedObstacle >= addRate then
 
         local obstacleType = RandomInArray(kObstacleTypes)
         local newObstacle = CreateSprite(obstacleType.image, 1, 1)
 
         newObstacle.type = obstacleType
+        newObstacle.speed = obstacleType.speed + RandomFloatBetween(-obstacleType.speedVariance, obstacleType.speedVariance)
 
         newObstacle:SetScale(vec2(2, 2))
         local minX = -kScreenWidth - self.worldScroll.x
         local maxX = -self.worldScroll.x
+
+        if endGame then
+
+            minX = -self.worldScroll.x
+            maxX = -self.worldScroll.x + kScreenWidth
+
+        end
+
         newObstacle:SetPosition(RandomPoint(minX, maxX, -264, -64))
 
         table.insert(self.obstacles, newObstacle)
@@ -349,7 +418,7 @@ end
 
 local function UpdateObstacles(self, dt)
 
-    for o = 1, #self.obstacles do
+    for o = #self.obstacles, 1, -1 do
 
         local obstacle = self.obstacles[o]
         local pos = obstacle:GetPosition()
@@ -358,7 +427,11 @@ local function UpdateObstacles(self, dt)
             self.gameOver = true
         end
 
-        obstacle:SetPosition(pos:Add(obstacle.type.direction:Mul(obstacle.type.speed * dt)))
+        obstacle:SetPosition(pos:Add(obstacle.type.direction:Mul(obstacle.speed * dt)))
+
+        if obstacle:GetPosition().y > kScreenHeight + obstacle:GetSize().y then
+            table.remove(self.obstacles, o)
+        end
 
     end
 
@@ -396,11 +469,48 @@ local function GetTrainIsFull(train)
 
 end
 
+local function UpdatePassengerAttractedToTrain(self, passenger, train, dt)
+
+    local passengerPos = passenger:GetPosition()
+    local trainPos = train:GetPosition()
+    local trainFull = GetTrainIsFull(train)
+    local distToPassenger = trainPos:Distance(passengerPos)
+    if not trainFull and train.speed <= kPassengerMaxTrainSpeed and
+       distToPassenger <= kPassengerAttractDistance then
+
+        passenger.attracted = true
+        passenger:SetAnimation("attracted")
+        local newPos = passengerPos:Add(trainPos:SubNorm(passengerPos):Mul(dt * kPassengerSpeed))
+        passenger:SetPosition(newPos)
+
+        if distToPassenger <= kPassengerPickupDistance then
+
+            if AddPassengerToTrain(passenger, train) then
+
+                passenger.attracted = false
+                passenger:SetAnimation("idle")
+                return true
+
+            end
+
+        end
+
+    else
+
+        passenger.attracted = false
+        passenger:SetAnimation("idle")
+
+    end
+
+    return false
+
+end
+
 local function UpdatePassengers(self, train, dt)
 
-    local trainPos = train:GetPosition()
     for p = #self.passengers, 1, -1 do
 
+        local removePassenger = false
         local passenger = self.passengers[p]
 
         local passengerColor = passenger:GetColor()
@@ -421,36 +531,33 @@ local function UpdatePassengers(self, train, dt)
             if passenger.destination:GetPosition():Distance(passengerPos) <= 16 then
 
                 self.numPassengersDelivered = self.numPassengersDelivered + 1
-                table.remove(self.passengers, p)
+                removePassenger = true
 
             end
 
         else
+            removePassenger = UpdatePassengerAttractedToTrain(self, passenger, train, dt)
+        end
 
-            local trainFull = GetTrainIsFull(train)
-            local distToPassenger = trainPos:Distance(passengerPos)
-            if not trainFull and train.speed <= kPassengerMaxPickupSpeed and
-               distToPassenger <= kPassengerAttractDistance then
+        -- Check if the passenger is far off the world.
+        if GetOffScreenAmount(self, passengerPos) < -kScreenWidth then
+            removePassenger = true
+        end
 
-                passenger.attracted = true
-                local newPos = passengerPos:Add(trainPos:SubNorm(passengerPos):Mul(dt * kPassengerSpeed))
-                passenger:SetPosition(newPos)
+        if removePassenger then
+            table.remove(self.passengers, p)
+        end
 
-                if distToPassenger <= kPassengerPickupDistance then
+    end
 
-                    if AddPassengerToTrain(passenger, train) then
+end
 
-                        passenger.attracted = false
-                        table.remove(self.passengers, p)
+local function UpdateDestinations(self)
 
-                    end
+    for d = #self.destinations, 1, -1 do
 
-                end
-
-            else
-                passenger.attracted = false
-            end
-
+        if GetOffScreenAmount(self, self.destinations[d]:GetPosition()) < -kScreenWidth then
+            table.remove(self.destinations, d)
         end
 
     end
@@ -459,7 +566,7 @@ end
 
 local function UpdateDropoffPassengers(self, train, dt)
 
-    if train.speed > kPassengerMaxDropoffSpeed then
+    if train.speed > kPassengerMaxTrainSpeed then
         return
     end
 
@@ -493,6 +600,31 @@ local function UpdateDropoffPassengers(self, train, dt)
 
 end
 
+local function UpdateRemoveOldBuiltPoints(self)
+
+    -- We check if the first built point can be removed every tick.
+    if GetOffScreenAmount(self, self.builtPoints[1]) < -kScreenWidth then
+
+        table.remove(self.builtPoints, 1)
+        self.train.prevPoint = self.train.prevPoint - 1
+
+    end
+
+end
+
+local function SpawnGold(self)
+
+    for g = 1, kNumEndGameGold do
+
+        local gold = CreateSprite("art/Gold.png", 1, 1)
+        gold:SetPosition(GetRandomPointInWorld(self):Add(vec2(kScreenWidth, 0)))
+        table.insert(self.gold, gold)
+
+    end
+
+end
+
+
 local function CheckOffScreen(self, point)
 
     local diff = self.worldScroll.x - -point.x
@@ -517,13 +649,22 @@ local function Update(self, dt)
 
     if self.gameOver then
 
+        self.gameOverTime = self.gameOverTime or 0
+        self.gameOverTime = self.gameOverTime + dt
+
+        -- Restart game.
+        if self.gameOverTime > 3 then
+            return PlayState.Create(self.font)
+        end
+
     else
 
+        local prevGameTime = self.gameTime
         self.gameTime = self.gameTime + dt
 
         -- Update based on controls.
         UpdateBuilderMovement(self, self.builder, dt)
-        UpdateTrainSpeed(self.train, dt)
+        UpdateTrainSpeed(self, self.train, dt)
 
         UpdateBuildTrack(self)
         UpdateTrainPosition(self, dt)
@@ -532,16 +673,30 @@ local function Update(self, dt)
 
         if self.startAnim:GetIsComplete() then
 
-            DebugDrawer.DrawText(tostring((math.min(1, self.gameTime / kGameProgressionTime) * kGameProgressionMaxSpeed)), vec2(5, 65), 0, color(0, 0, 0, 0))
+            local progress = math.min(1, self.gameTime / kGameWinConditionTime)
             local moddedDt = math.max(dt, dt * (math.min(1, self.gameTime / kGameProgressionTime) * kGameProgressionMaxSpeed))
-            self.worldScroll = self.worldScroll:Add(vec2(kWorldScrollSpeed * moddedDt, 0))
-            UpdateAddPassengers(self, moddedDt)
-            UpdateAddDestinations(self, moddedDt)
-            UpdateAddObstacles(self, moddedDt)
+
+            if progress < 1 then
+
+                self.worldScroll = self.worldScroll:Add(vec2(kWorldScrollSpeed * moddedDt, 0))
+                UpdateAddPassengers(self, moddedDt)
+                UpdateAddDestinations(self, moddedDt)
+
+            else
+
+                if prevGameTime < kGameWinConditionTime then
+                    SpawnGold(self)
+                end
+
+            end
+
+            UpdateAddObstacles(self, moddedDt, progress)
 
             UpdateObstacles(self, dt)
             UpdatePassengers(self, self.train, dt)
+            UpdateDestinations(self)
             UpdateDropoffPassengers(self, self.train, dt)
+            UpdateRemoveOldBuiltPoints(self)
 
             CheckGameOver(self)
 
@@ -553,6 +708,7 @@ end
 
 local function DrawUI(self)
 
+    love.graphics.setLine(4, "smooth")
     love.graphics.setFont(kHugeFont)
     local startAnimVal = self.startAnim:GetValue()
     if not self.startAnim:GetIsComplete() then
@@ -571,6 +727,29 @@ local function DrawUI(self)
 
     love.graphics.setColor(0, 0, 0, 255)
     love.graphics.printf(tostring(self.numPassengersDelivered), kScreenHalfWidth, 10, 0, "center")
+
+    love.graphics.setColor(255, 255, 255, 255)
+    local mapScale = 0.25
+    local mapX = kScreenWidth - ((kMapImage:getWidth() + 20) * mapScale)
+    local mapY = 5
+    love.graphics.draw(kMapImage, mapX, mapY, 0, mapScale, mapScale)
+
+    -- Draw progress line on map.
+    love.graphics.setColor(0, 255, 0, 255)
+    local startX = mapX + 600 * mapScale
+    local startY = mapY + 150 * mapScale
+    local endX = mapX + 55 * mapScale
+    local endY = mapY + 275 * mapScale
+    local progress = math.min(1, self.gameTime / kGameWinConditionTime)
+    local currentX = startX + ((endX - startX) * progress)
+    local currentY = startY + ((endY - startY) * progress)
+    love.graphics.line(startX, startY, currentX, currentY)
+
+    -- Draw X on end point on map.
+    love.graphics.setLine(2, "smooth")
+    love.graphics.setColor(255, 255, 0, 255)
+    love.graphics.line(endX - 3, endY - 3, endX + 3, endY + 3)
+    love.graphics.line(endX - 3, endY + 3, endX + 3, endY - 3)
 
 end
 
@@ -591,6 +770,19 @@ local function DrawWorld(self)
     local redAmount = builderPos:Distance(self.builder.lastBuiltPoint) / kBuildPointDistance
     love.graphics.setColor(80 + (170 * redAmount), 80, 0, 255)
     love.graphics.line(lastBuilt.x, lastBuilt.y, builderPos.x, builderPos.y)
+
+end
+
+local function DrawTrainMotionLines(train)
+
+    love.graphics.setLine(1, "smooth")
+    love.graphics.setColor(200, 200, 200, 255)
+    for l = 1, #train.motionLines do
+
+        local line = train.motionLines[l]
+        love.graphics.line(line.front.x, line.front.y, line.back.x, line.back.y)
+
+    end
 
 end
 
@@ -646,12 +838,14 @@ end
 
 local function DrawEntities(self)
 
+    DrawTrainMotionLines(self.train)
     DrawTrainCars(self, self.train)
     DrawTrainPassengers(self.train)
     self.train:Draw()
     DrawArray(self.obstacles)
     DrawArray(self.passengers)
     DrawArray(self.destinations)
+    DrawArray(self.gold)
     self.builder:Draw()
 
 end
@@ -700,4 +894,5 @@ local function Create(useFont, client, server)
     
 end
 
-return { Create = Create }
+PlayState.Create = Create
+return PlayState
