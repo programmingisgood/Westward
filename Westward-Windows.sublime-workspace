@@ -4,6 +4,78 @@
 		"selected_items":
 		[
 			[
+				"obst",
+				"obstacleType"
+			],
+			[
+				"kTrain",
+				"kMaxTrainSpeed"
+			],
+			[
+				"dest",
+				"destinations"
+			],
+			[
+				"passe",
+				"passengers"
+			],
+			[
+				"kScreenha",
+				"kScreenHalfHeight"
+			],
+			[
+				"game",
+				"gameOver"
+			],
+			[
+				"Random",
+				"GetRandomPointInWorld"
+			],
+			[
+				"gameOv",
+				"gameOverTime"
+			],
+			[
+				"built",
+				"builtPoints"
+			],
+			[
+				"drawtex",
+				"drawTextPos"
+			],
+			[
+				"drawText",
+				"drawTextPos"
+			],
+			[
+				"des",
+				"destinations"
+			],
+			[
+				"obstac",
+				"obstacle"
+			],
+			[
+				"obsta",
+				"obstacles"
+			],
+			[
+				"remove",
+				"remove"
+			],
+			[
+				"kSc",
+				"kScreenHeight"
+			],
+			[
+				"passeg",
+				"passengers"
+			],
+			[
+				"UpdatePass",
+				"UpdatePassengerAttractedToTrain"
+			],
+			[
 				"grab",
 				"GrabberMixin"
 			],
@@ -51,6 +123,54 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "WestwardPlayState.lua",
+			"settings":
+			{
+				"buffer_size": 24578,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "todo.txt",
+			"settings":
+			{
+				"buffer_size": 341,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "DebugDrawer.lua",
+			"settings":
+			{
+				"buffer_size": 3260,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "SpriteMixin.lua",
+			"settings":
+			{
+				"buffer_size": 4799,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "WestwardGame.lua",
+			"settings":
+			{
+				"buffer_size": 1290,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Utils.lua",
+			"settings":
+			{
+				"buffer_size": 5289,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -67,7 +187,7 @@
 	},
 	"console":
 	{
-		"height": 0.0
+		"height": 125.0
 	},
 	"distraction_free":
 	{
@@ -80,6 +200,10 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Brian/AppData/Roaming/Sublime Text 2/Packages/User/RunLove.py",
+		"/C/Users/Brian/AppData/Roaming/Sublime Text 2/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Brian/AppData/Roaming/Sublime Text 2/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Brian/AppData/Roaming/Sublime Text 2/Packages/User/Love2D.sublime-build",
 		"/C/Users/Brian/Projects/Westward/Westward.sublime-project",
 		"/Users/Murphy/Projects/Experiments2/Amore/Camera.lua",
 		"/Users/Murphy/Projects/Experiments2/Amore/PhysicsMixin.lua",
@@ -107,6 +231,112 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"kaddob",
+			"boulder",
+			"getrandompoint",
+			"kobs",
+			"kobstaclety",
+			".direction",
+			"ksmokel",
+			"kMaxTrainSpeed",
+			"kaddsm",
+			"kaddsmoker",
+			"kadd",
+			"kaddtrain",
+			"kaddsmoke",
+			"direction",
+			"smokelif",
+			"motionline",
+			"drawArr",
+			"line",
+			"motionlines",
+			"motionlin",
+			"drawtrain",
+			"gold",
+			"kmaxg",
+			"if self.game",
+			"updateg",
+			".gold",
+			"140",
+			"spawngol",
+			"drawarr",
+			".passengers",
+			"kGameWinConditionTime",
+			"kgamewin",
+			"kgamepro",
+			"GetRandomP",
+			"worldscr",
+			"type.s",
+			"speedvar",
+			"obstacle =",
+			"type.speed",
+			"kAddObstacleRate",
+			"UpdateAddObstacles",
+			"worldsc",
+			"progress",
+			"map",
+			"kGameProgressionTime",
+			".motionl",
+			"setline",
+			"drawui",
+			"setlinew",
+			"motionlin",
+			".end",
+			"kmotionli",
+			"kmotion",
+			"updatetrainsp",
+			"updatetrain",
+			"drawtrainc",
+			"drawtra",
+			"kPassengerMaxDropoffSpeed",
+			"kPassengerMaxPickupSpeed",
+			"add",
+			".attracted =",
+			"attract",
+			"draw(",
+			".drawquad",
+			"draw(",
+			".drawImage",
+			"updatetrains",
+			"updatetrainspeed",
+			"updatetrainp",
+			"updatetrain",
+			".prevpoint",
+			"updateremoveol",
+			"updatebu",
+			"getpointont",
+			"builtPoint",
+			"index",
+			"updatedes",
+			"dropoffp",
+			"dropoff",
+			"builtpoint",
+			"debugdrawer",
+			"debugdraw",
+			"updatepass",
+			"dropoffp",
+			"updatePass",
+			"destinations",
+			"updatepass",
+			"\"off ",
+			"updatepasse",
+			"updateaddp",
+			"self",
+			"passengerPos",
+			"passenger",
+			"passengerPos",
+			"trainpos",
+			"updatepass",
+			"debugdr",
+			"getoffscre",
+			"getoffs",
+			"removepass",
+			"removePas",
+			"removepass",
+			"updatepass",
+			"kPassengerTypes",
+			"4",
+			"kPassengerTypes",
 			"grab",
 			"puck",
 			"nearbyUsables",
@@ -128,9 +358,7 @@
 			"kcollision",
 			"khumanmass",
 			"InitWorld",
-			"InitWorldBounds",
-			"self.stabbo",
-			"the ma"
+			"InitWorldBounds"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -138,6 +366,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"kTrainMaxSpeed",
+			"kPassengerMaxTrainSpeed",
 			"self.player"
 		],
 		"reverse": false,
@@ -149,8 +379,175 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "WestwardPlayState.lua",
+					"settings":
+					{
+						"buffer_size": 24578,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11956,
+								11956
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5643.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "todo.txt",
+					"settings":
+					{
+						"buffer_size": 341,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								341,
+								341
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "DebugDrawer.lua",
+					"settings":
+					{
+						"buffer_size": 3260,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2330,
+								2330
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "SpriteMixin.lua",
+					"settings":
+					{
+						"buffer_size": 4799,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								995,
+								998
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 618.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "WestwardGame.lua",
+					"settings":
+					{
+						"buffer_size": 1290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								892,
+								897
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 90.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Utils.lua",
+					"settings":
+					{
+						"buffer_size": 5289,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								203,
+								203
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -185,6 +582,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
 	"replace":
 	{
 		"height": 64.0
@@ -195,6 +596,34 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"pla",
+				"WestwardPlayState.lua"
+			],
+			[
+				"ut",
+				"Utils.lua"
+			],
+			[
+				"play",
+				"WestwardPlayState.lua"
+			],
+			[
+				"util",
+				"Utils.lua"
+			],
+			[
+				"sprit",
+				"SpriteMixin.lua"
+			],
+			[
+				"plays",
+				"WestwardPlayState.lua"
+			],
+			[
+				"debug",
+				"DebugDrawer.lua"
+			],
 			[
 				"super",
 				"SuperHockeyPlayState.lua"
@@ -210,10 +639,6 @@
 			[
 				"suo",
 				"SuperHockeyGame.lua"
-			],
-			[
-				"util",
-				"Utils.lua"
 			],
 			[
 				"phy",
@@ -236,10 +661,6 @@
 				"SuperHockeyPlayState.lua"
 			],
 			[
-				"sprit",
-				"SpriteMixin.lua"
-			],
-			[
 				"camera",
 				"Camera.lua"
 			],
@@ -254,10 +675,6 @@
 			[
 				"uti",
 				"Utils.lua"
-			],
-			[
-				"debug",
-				"DebugDrawer.lua"
 			],
 			[
 				"phys",

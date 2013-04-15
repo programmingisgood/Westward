@@ -1,1 +1,6 @@
-win condition
+add twister - steals a passenger
+add tumbleweed - starts in west and goes toward east, "spooks" cattle into moving to the east, disappears if builder or train hit it
+add boulder, doesn't move, lose if builder or train hits
+dont place gold on obstacles
+do not place boulders on passengers or destinations or gold
+only spawn cattle in end game
