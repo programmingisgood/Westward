@@ -45,7 +45,7 @@ table.insert(kDestinationTypes, { name = "red", color = color(150, 0, 0, 255) })
 table.insert(kDestinationTypes, { name = "green", color = color(0, 150, 0, 255) })
 table.insert(kDestinationTypes, { name = "blue", color = color(0, 0, 150, 255) })
 
-local kAddObstacleRate = 3
+local kAddObstacleRate = 3.5
 local kEndGameAddObstacleRate = 1
 local kObstacleTypes = { }
 
@@ -74,7 +74,9 @@ local function GetRandomPointInWorld(self, endGame)
 
 end
 table.insert(kObstacleTypes, { name = "boulder", image = "art/Boulder.png", position = GetRandomPointInWorld, direction = nil, speed = 0, speedVariance = 0 })
+
 --table.insert(kObstacleTypes, { name = "twister", image = "art/Twister.png", direction = "random", speed = 15, speedVariance = 5 })
+--table.insert(kObstacleTypes, { name = "tumbleweed", image = "art/Tumbleweed.png", direction = vec2(1, 0), speed = 15, speedVariance = 5 })
 
 local kHugeFont = love.graphics.newFont("art/press-start-2p/PressStart2P.ttf", 62)
 
