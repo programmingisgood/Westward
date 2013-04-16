@@ -7,7 +7,7 @@ local Sound = require("Sound")
 require("DebugDrawer")
 
 local kBuildPointDistance = 32
-local kNumPrebuiltPoints = 7
+local kNumPrebuiltPoints = 10
 local kScreenWidth = love.graphics.getWidth()
 local kScreenHalfWidth = kScreenWidth / 2
 local kScreenHeight = love.graphics.getHeight()
@@ -45,7 +45,7 @@ table.insert(kDestinationTypes, { name = "red", color = color(150, 0, 0, 255) })
 table.insert(kDestinationTypes, { name = "green", color = color(0, 150, 0, 255) })
 table.insert(kDestinationTypes, { name = "blue", color = color(0, 0, 150, 255) })
 
-local kAddObstacleRate = 4
+local kAddObstacleRate = 3
 local kEndGameAddObstacleRate = 1
 local kObstacleTypes = { }
 
@@ -97,7 +97,7 @@ local function AddTrainCar(train)
 
     local newCar = CreateSprite("art/TrainCar.png", 1, 1)
     
-    newCar:SetScale(vec2(1.5, 1.5))
+    newCar:SetScale(vec2(1, 1))
 
     table.insert(train.cars, newCar)
 
@@ -129,13 +129,13 @@ local function Init(self)
 
     self.train = CreateSprite("art/Train.png", 1, 1)
     
-    self.train:SetScale(vec2(3, 3))
+    self.train:SetScale(vec2(1, 1))
     self.train:SetPosition(vec2(kScreenHalfWidth, kScreenHalfHeight))
 
     self.train.input = SimpleInput.Create(2)
 
     self.train.speed = 0
-    self.train.prevPoint = 3
+    self.train.prevPoint = 6
     self.train.percentToNextPoint = 0
     self.train.cars = { }
     self.train.smoke = { }
@@ -311,9 +311,16 @@ local function UpdateTrainPosition(self, dt)
 
     end
 
+    local lastPos = self.train:GetPosition()
     local trainPos = GetPointOnTracks(self, self.train.prevPoint, self.train.percentToNextPoint)
     if trainPos then
+
         self.train:SetPosition(trainPos)
+        local dir = trainPos:Sub(lastPos)
+        if dir:Length() > 0 then
+            self.train:SetRotation(dir:Normalize():ToAngle() + math.pi / 2)
+        end
+
     end
 
 end
@@ -359,7 +366,7 @@ local function UpdateAddPassengers(self, dt)
 
             newPassenger.type = randomType
 
-            newPassenger:SetScale(vec2(2, 2))
+            newPassenger:SetScale(vec2(1, 1))
             newPassenger:SetColor(newPassenger.type.color)
             
             newPassenger:SetPosition(randomPoint)
@@ -412,6 +419,12 @@ local function UpdateAddObstacles(self, dt, progress)
     if now - self.lastTimeAddedObstacle >= addRate then
 
         local obstacleType = RandomInArray(kObstacleTypes)
+
+        -- Only cattle in the end game.
+        if endGame then
+            obstacleType = kObstacleTypes[1]
+        end
+
         local newObstacle = CreateSprite(obstacleType.image, 1, 1)
 
         newObstacle.type = obstacleType
@@ -445,7 +458,7 @@ local function UpdateObstacles(self, dt)
             self.gameOver = true
         end
 
-        if obstacle.direction then
+        if obstacle.type.direction then
             obstacle:SetPosition(pos:Add(obstacle.type.direction:Mul(obstacle.speed * dt)))
         end
 
@@ -638,9 +651,20 @@ local function SpawnGold(self)
 
     for g = 1, kNumEndGameGold do
 
-        local gold = CreateSprite("art/Gold.png", 1, 1)
-        gold:SetPosition(GetRandomPointInWorld(self):Add(vec2(kScreenWidth, 0)))
-        table.insert(self.gold, gold)
+        -- Try to place 100 times before giving up.
+        for c = 1, 100 do
+
+            local goldPos = GetRandomPointInWorld(self):Add(vec2(kScreenWidth, 0))
+            if CheckPointAwayFrom(goldPos, self.destinations, 128) then
+
+                local gold = CreateSprite("art/Gold.png", 1, 1)
+                gold:SetPosition(goldPos)
+                table.insert(self.gold, gold)
+                break
+
+            end
+
+        end
 
     end
 
@@ -833,16 +857,26 @@ local function DrawTrainCars(self, train)
         local percentToNextPoint = train.percentToNextPoint
 
         local carPrevPoint = prevPoint
-        local carPercentToNextPoint = percentToNextPoint - (0.35 * c)
+        local carPercentToNextPoint = percentToNextPoint - (0.9 * c)
         while carPercentToNextPoint < 0 do
 
             carPrevPoint = carPrevPoint - 1
             carPercentToNextPoint = carPercentToNextPoint + 1
 
         end
+
+        local lastPos = car:GetPosition()
         local carPos = GetPointOnTracks(self, carPrevPoint, carPercentToNextPoint)
         if carPos then
+
             car:SetPosition(carPos)
+            local dir = carPos:Sub(lastPos)
+            -- Do not change rotation when staying in place or before the first draw.
+            -- This will prevent bad values getting into the angles.
+            if dir:Length() > 0 and lastPos:Length() > 0 then
+                car:SetRotation(dir:Normalize():ToAngle() + math.pi / 2)
+            end
+
         end
         car:Draw()
 
