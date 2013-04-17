@@ -15,7 +15,7 @@ local kScreenHalfHeight = kScreenHeight / 2
 
 local kWorldScrollSpeed = 32
 
-local kGameWinConditionTime = 140
+local kGameWinConditionTime = 160
 local kGameProgressionTime = 100
 local kGameProgressionMaxSpeed = 1.5
 local kNumEndGameGold = 10
@@ -64,7 +64,8 @@ local function CattlePosition(self, endGame)
     return RandomPoint(minX, maxX, -264, -64)
 
 end
-table.insert(kObstacleTypes, { name = "cattle", image = "art/Cattle.png", position = CattlePosition, direction = vec2(0, 1), speed = 25, speedVariance = 5 })
+table.insert(kObstacleTypes,
+{ name = "cattle", image = "art/Cattle.png", position = CattlePosition, direction = vec2(0, 1), speed = 25, speedVariance = 5 })
 
 local function GetRandomPointInWorld(self, endGame)
 
@@ -73,9 +74,11 @@ local function GetRandomPointInWorld(self, endGame)
     return RandomPoint(minX, maxX, 64, kScreenHeight - 64)
 
 end
-table.insert(kObstacleTypes, { name = "boulder", image = "art/Boulder.png", position = GetRandomPointInWorld, direction = nil, speed = 0, speedVariance = 0 })
+table.insert(kObstacleTypes,
+{ name = "boulder", image = "art/Boulder.png", position = GetRandomPointInWorld, direction = nil, speed = 0, speedVariance = 0 })
 
---table.insert(kObstacleTypes, { name = "twister", image = "art/Twister.png", direction = "random", speed = 15, speedVariance = 5 })
+table.insert(kObstacleTypes,
+{ name = "twister", image = "art/Twister.png", position = GetRandomPointInWorld, direction = "random", speed = 25, speedVariance = 5 })
 --table.insert(kObstacleTypes, { name = "tumbleweed", image = "art/Tumbleweed.png", direction = vec2(1, 0), speed = 15, speedVariance = 5 })
 
 local kHugeFont = love.graphics.newFont("art/press-start-2p/PressStart2P.ttf", 62)
@@ -265,7 +268,7 @@ local function UpdateTrainSpeed(self, train, dt)
 
     UpdateTrainSmoke(train)
 
-    DebugDrawer.DrawText("speed: " .. train.speed)
+    --DebugDrawer.DrawText("speed: " .. train.speed)
 
 end
 
@@ -461,7 +464,14 @@ local function UpdateObstacles(self, dt)
         end
 
         if obstacle.type.direction then
-            obstacle:SetPosition(pos:Add(obstacle.type.direction:Mul(obstacle.speed * dt)))
+
+            if obstacle.type.direction == "random" then
+                obstacle.type.direction = vec2(RandomFloatBetween(-1, 1), RandomFloatBetween(-1, 1)):Normalize()
+            end
+            local dir = obstacle.type.direction
+
+            obstacle:SetPosition(pos:Add(dir:Mul(obstacle.speed * dt)))
+
         end
 
         pos = obstacle:GetPosition()
