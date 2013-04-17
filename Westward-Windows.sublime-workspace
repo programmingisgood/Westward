@@ -127,7 +127,7 @@
 			"file": "WestwardPlayState.lua",
 			"settings":
 			{
-				"buffer_size": 24578,
+				"buffer_size": 25966,
 				"line_ending": "Windows"
 			}
 		},
@@ -135,7 +135,7 @@
 			"file": "todo.txt",
 			"settings":
 			{
-				"buffer_size": 341,
+				"buffer_size": 217,
 				"line_ending": "Windows"
 			}
 		},
@@ -231,6 +231,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"animation",
 			"kaddob",
 			"boulder",
 			"getrandompoint",
@@ -357,8 +358,7 @@
 			"human",
 			"kcollision",
 			"khumanmass",
-			"InitWorld",
-			"InitWorldBounds"
+			"InitWorld"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -379,7 +379,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -387,15 +387,15 @@
 					"file": "WestwardPlayState.lua",
 					"settings":
 					{
-						"buffer_size": 24578,
+						"buffer_size": 25966,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11956,
-								11956
+								427,
+								427
 							]
 						],
 						"settings":
@@ -405,7 +405,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5643.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -415,15 +415,15 @@
 					"file": "todo.txt",
 					"settings":
 					{
-						"buffer_size": 341,
+						"buffer_size": 217,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								341,
-								341
+								217,
+								217
 							]
 						],
 						"settings":

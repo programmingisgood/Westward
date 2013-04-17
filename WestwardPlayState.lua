@@ -151,7 +151,7 @@ local function Init(self)
 
     self.worldScroll = vec2(0, 0)
 
-    self.startAnim = Animation(kScreenWidth - 100, -kScreenWidth, 2.4)
+    self.startAnim = Animation(kScreenWidth + 1200, -kScreenWidth, 2.4)
 
     self.passengers = { }
     self.destinations = { }
